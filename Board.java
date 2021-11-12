@@ -27,6 +27,8 @@ public class Board {
 			if(cmd.equals("help")) {
 				System.out.println("add : 게시물 등록");
 				System.out.println("list : 게시물 목록 조회");
+				System.out.println("update : 게시물 수정");
+				System.out.println("delete : 게시물 삭제");
 			}else if(cmd.equals("add")) {
 				
 				// 중복되지 않아야 된다. 자동으로 만들어 줘야 된다.
@@ -48,19 +50,10 @@ public class Board {
 
 			}else if(cmd.equals("update")) {
 				System.out.println("수정할 게시물 번호: ");
-				int target = Integer.parseInt(sc.nextLine());
+				int targetNo = Integer.parseInt(sc.nextLine());
 				
-				
-				int targetIndex = -1;
-				
-				for(int i = 0; i < numbers.size(); i++) {
-					int currentNo = numbers.get(i);
-					if(target == currentNo){
-						targetIndex = i;
-						break;
-					}
-					
-				}
+				int targetIndex = getIndexOfArticleNo(targetNo);
+			
 				if(targetIndex == -1) {
 					System.out.println("없는 게시물입니다.");
 				}else{
@@ -73,35 +66,40 @@ public class Board {
 					bodies.set(targetIndex, body);
 					System.out.println("수정이 완료되었습니다.");
 					list();
-				}
+				}	
+			} 		else if(cmd.equals("delete")) {
+				System.out.println("삭제할 게시물 번호: ");
+				int targetNo = Integer.parseInt(sc.nextLine());
 				
+				int targetIndex = getIndexOfArticleNo(targetNo);
+			
+				if(targetIndex == -1) {
+					System.out.println("없는 게시물입니다.");
+				}else{
+					titles.remove(targetIndex);
+					bodies.remove(targetIndex);
+					numbers.remove(targetIndex);
+					System.out.println("삭제가 완료되었습니다.");
+					list();
+				}	
+			}
+		}	
+	}
+	
+	public int getIndexOfArticleNo(int targetNo) {
+		
+		for(int i = 0; i < numbers.size(); i++) {
+			int currentNo = numbers.get(i);
+			if(targetNo == currentNo){
+				return i;
 			}
 			
 		}
 		
-		// 제목을 입력해주세요 : (출력) 안녕하세요(입력)
-		// 내용을 입력해주세요 : (출력) 반갑습니다(입력)
-		// 게시물이 저장되었습니다. (출력)
-		// 명령어를 입력해주세요 : (출력) list(입력)
-		// 번호 : 1(출력)
-		// 제목 : 안녕하세요(출력)
-		// 내용 : 반갑습니다(출력)
-		// ====================================(출력)
-		// 명령어를 입력해주세요 : (출력) add(입력)
-		// 제목을 입력해주세요 : (출력) 안녕하세요2(입력)
-		// 내용을 입력해주세요 : (출력) 반갑습니다2(입력)
-		// 게시물이 저장되었습니다. (출력)
-		// 명령어를 입력해주세요 : (출력) list(입력)
-		// 번호 : 1(출력)
-		// 제목 : 안녕하세요(출력)
-		// 내용 : 반갑습니다(출력)
-		// ====================================(출력)
-		// 번호 : 2(출력)
-		// 제목 : 안녕하세요2(출력)
-		// 내용 : 반갑습니다2(출력)
-		// ====================================(출력)
-		
+		return -1;
 	}
+	
+	
 	
 	public void list() {
 		for(int i = 0; i < titles.size();i++) {
